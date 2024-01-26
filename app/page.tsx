@@ -7,7 +7,8 @@ import { useSocket } from "./context/SocketState";
 import { FormValues } from "./auth/page";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-
+import {ToastContainer} from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 export default function Home() {
   const [Variant, setVariant]= useState<"CHATROOM" | "PRIVATE">("CHATROOM")
   const {setUserName,UserName,  JoinChatRoom}= useSocket()
@@ -57,6 +58,7 @@ export default function Home() {
   }
   return (
     <>
+            <ToastContainer autoClose={1000}/>    
     <div className="flex h-screen overflow-hidden">
         {/* <!-- Sidebar --> */}
        <SIdebar/>

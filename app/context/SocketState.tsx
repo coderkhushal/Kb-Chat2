@@ -2,7 +2,9 @@
 import React, {  useContext, useEffect, useState } from "react"
 import { Socket, io } from "socket.io-client"
 import { createContext } from "react"
-
+import { toast } from "react-toastify"
+const host=process.env.SERVER  || "https://kb-chat-backend.onrender.com"
+// const host="http://localhost:4000"
 export type messagedatatype ={
         message:string;
         type:"INCOMING" | "OUTGOING";
@@ -58,12 +60,12 @@ const SocketProvider:React.FC<SocketProviderProps>= (props)=>{
                 }
         }
         const fetchMessages=async()=>{
-                let res= await fetch("http://localhost:4000/messages")
+                let res= await fetch(host+"/messages")
                 let resData= await res.json()
                 setMessages(resData)
         }
         const fetchUsers=async()=>{
-                let res= await fetch("http://localhost:4000/users")
+                let res= await fetch(host+"/users")
                 let resData= await res.json()
                 
                 setUsers(resData)
@@ -71,17 +73,24 @@ const SocketProvider:React.FC<SocketProviderProps>= (props)=>{
         useEffect(()=>{
                 fetchMessages()
                 fetchUsers()
-                const _socket= io("http://localhost:4000")
+                const _socket= io(host)
                 const handleOnMessageRec=(data:any)=>{
                         setMessages(data)
                         
                 }
-                const handleUpdateUsers=(data:Usertype[])=>{
+                const handleUpdateUsers=(data:{users:Usertype[],name:string})=>{
                         
-                        setUsers(data)
+                        setUsers(data.users)
+                        toast.info(`${data.name} joined`)
+                }
+                const handleDisconnectUser= (data:{users:Usertype[], name:string})=>{
+                        setUsers(data.users)
+                        toast.info(`${data.name} Disconnected`)
                 }
                 _socket.on("message",handleOnMessageRec)
                 _socket.on("new-user",handleUpdateUsers)
+                _socket.on("user-disconnected",handleDisconnectUser)
+                
                 setsocket(_socket)
                 
                 return(()=>{

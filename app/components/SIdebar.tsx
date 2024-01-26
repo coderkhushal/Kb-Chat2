@@ -2,10 +2,8 @@
 import React from 'react'
 import SidebarUser from './SidebarUser'
 import { useSocket } from '../context/SocketState'
-
 const SIdebar = () => {
     const {Users}= useSocket()
-    
     return (
 
         <div className="w-1/4 bg-white border-r h-full  border-gray-300">
@@ -33,7 +31,7 @@ const SIdebar = () => {
             {/* <!-- Contact List --> */}
             <div className="overflow-y-auto h-screen p-3 mb-9 pb-20">
 
-            {Users.map(e=><SidebarUser Name={e.name} />)}
+            {Users && Users.map(e=><SidebarUser Name={e.name} SocketId={e.socketid} />)}
             </div>
         
         </div>
