@@ -1,16 +1,16 @@
 "use client"
-import SIdebar from "./components/SIdebar";
-import ChatInput from "./components/ChatInput";
-import MessagesContainer from "./components/MessagesContainer";
-import { useState } from "react";
-import { useSocket } from "./context/SocketState";
-import { FormValues } from "./auth/page";
-import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
-
-export default function Home() {
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useSocket } from '../context/SocketState'
+export type FormValues= {
+  name:string;
+  roomid?:string
+}
+const page = () => {
   const [Variant, setVariant]= useState<"CHATROOM" | "PRIVATE">("CHATROOM")
-  const {setUserName,UserName,  JoinChatRoom}= useSocket()
+  const { setUserName, JoinChatRoom}= useSocket()
+
   const router = useRouter()
   const {
     register,
@@ -23,11 +23,8 @@ export default function Home() {
     JoinChatRoom(data.name)
     router.push("/")
   }
-
-  if(UserName===""){
-    //give the authentication page
-    return (
-      <div className='flex items-center justify-center min-h-screen from-purple-900 via-indigo-800 to-indigo-500 bg-gradient-to-br'>
+  return (
+<div className='flex items-center justify-center min-h-screen from-purple-900 via-indigo-800 to-indigo-500 bg-gradient-to-br'>
     <div className='w-full max-w-lg px-10 py-8 mx-auto bg-white border rounded-lg shadow-2xl'>
         <div className='max-w-md mx-auto space-y-3'>
             <h3 className="text-lg font-semibold">&#128540; Login As Guest</h3>
@@ -53,34 +50,7 @@ export default function Home() {
         </div>
     </div>
 </div>
-    )
-  }
-  return (
-    <>
-    <div className="flex h-screen overflow-hidden">
-        {/* <!-- Sidebar --> */}
-       <SIdebar/>
-        
-        {/* <!-- Main Chat Area --> */}
-        <div className="flex-1">
-            {/* <!-- Chat Header --> */}
-            <header className="bg-white p-4 text-gray-700">
-                <h1 className="text-2xl font-semibold">Group Chat</h1>
-            </header>
-            
-            {/* <!-- Chat Messages --> */}
-            <MessagesContainer/>
-
-    
-    
-               
-            
-            
-            {/* <!-- Chat Input --> */}
-            <ChatInput/>
-        </div>
-    </div>
-    
-    </>
-  );
+  )
 }
+
+export default page
