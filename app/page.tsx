@@ -2,17 +2,32 @@
 import SIdebar from "./components/SIdebar";
 import ChatInput from "./components/ChatInput";
 import MessagesContainer from "./components/MessagesContainer";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSocket } from "./context/SocketState";
 import { FormValues } from "./auth/page";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {ToastContainer} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
+import SIdebarPhone from "./components/SideBarPhone";
 export default function Home() {
   const [Variant, setVariant]= useState<"CHATROOM" | "PRIVATE">("CHATROOM")
   const {setUserName,UserName,  JoinChatRoom}= useSocket()
   const router = useRouter()
+  
+  const toggleUsers=()=>{
+   
+    if(ref?.current?.classList.contains("translate-x-full")){
+      ref.current.classList.remove("translate-x-full")
+      ref.current.classList.add("translate-x-0")
+    }
+    else if(ref?.current?.classList.contains("translate-x-0")){
+      
+      ref.current.classList.remove("translate-x-0")
+      ref.current.classList.add("translate-x-full")
+    }
+  }
+  const ref= useRef<HTMLDivElement>(null)
   const {
     register,
     handleSubmit,
@@ -59,15 +74,21 @@ export default function Home() {
   return (
     <>
             <ToastContainer autoClose={1000}/>    
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-full overflow-y-auto">
         {/* <!-- Sidebar --> */}
        <SIdebar/>
         
         {/* <!-- Main Chat Area --> */}
         <div className="flex-1">
             {/* <!-- Chat Header --> */}
-            <header className="bg-white p-4 text-gray-700">
+            <header className=" shadow-lg overflow-x-hidden">
+       <SIdebarPhone reference= {ref} toggleUsers={toggleUsers}/>
+       <div className="flex bg-white py-4 w-full text-gray-700">
+
+              <button className="block md:hidden mx-2 shadow-l rounded-l px-2 bg-indigo-400 text-white " onClick={()=>toggleUsers()}>Users</button>
                 <h1 className="text-2xl font-semibold">Group Chat</h1>
+               
+       </div>
             </header>
             
             {/* <!-- Chat Messages --> */}

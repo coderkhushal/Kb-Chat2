@@ -1,0 +1,1 @@
+export const host="https://kb-chat-backend.onrender.com" as string

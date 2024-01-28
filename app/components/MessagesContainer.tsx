@@ -6,7 +6,7 @@ const MessagesContainer = () => {
   const {Messages,socketid, Users}= useSocket()
 
   return (
-    <div className="h-screen overflow-y-auto p-4 pb-36">
+    <div className="h-[75vh] overflow-y-auto p-4 pb-36">
       {Messages && 
       Messages.map(e=>{
         let name="Unavailable"

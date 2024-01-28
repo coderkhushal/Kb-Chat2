@@ -3,7 +3,7 @@ import React, {  useContext, useEffect, useState } from "react"
 import { Socket, io } from "socket.io-client"
 import { createContext } from "react"
 import { toast } from "react-toastify"
-const host=process.env.SERVER  || "https://kb-chat-backend.onrender.com"
+import { host } from "../constants"
 // const host="http://localhost:4000"
 export type messagedatatype ={
         message:string;
@@ -75,10 +75,12 @@ const SocketProvider:React.FC<SocketProviderProps>= (props)=>{
                 setUsers(resData)
         }
         useEffect(()=>{
-                fetchMessages()
-                fetchUsers()
-                const _socket= io(host)
-                const handleOnMessageRec=(data:any)=>{
+                if(host){
+
+                        fetchMessages()
+                        fetchUsers()
+                        const _socket= io(host)
+                        const handleOnMessageRec=(data:any)=>{
                         setMessages(data)
                         
                 }
@@ -102,7 +104,11 @@ const SocketProvider:React.FC<SocketProviderProps>= (props)=>{
                         _socket.disconnect()
                         setsocket(null)
                 })
-        },[])
+        }
+        else{
+                console.log("host not found")
+        }
+        },[host])
         return(
                 <SocketContext.Provider value={{sendMessage, Messages,loading,setloading, socketid:socket?.id, Users, UserName, setUserName, JoinChatRoom}}>
                         {props.children}
