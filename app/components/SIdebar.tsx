@@ -32,7 +32,7 @@ const SIdebar = () => {
             {/* <!-- Contact List --> */}
             <div className="overflow-y-auto h-screen p-3 mb-9 pb-20">
             {loading  && <Loading/>}
-            {Users ? Users.map(e=><SidebarUser Name={e.name} SocketId={e.socketid} />) : <Loading/> }
+            {Users ? Users.map(e=><SidebarUser key={e.socketid} Name={e.name} SocketId={e.socketid} />) : <Loading/> }
             </div>
         
         </div>
