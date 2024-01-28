@@ -7,7 +7,7 @@ export type FormValues= {
   name:string;
   roomid?:string
 }
-const page = () => {
+const Page :React.FC= () => {
   const [Variant, setVariant]= useState<"CHATROOM" | "PRIVATE">("CHATROOM")
   const { setUserName, JoinChatRoom}= useSocket()
 
@@ -53,4 +53,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

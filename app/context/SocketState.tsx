@@ -23,7 +23,9 @@ interface SocketContextProps{
         Users:Usertype[];
         UserName:string;
         setUserName : (name:string)=>void;
-        JoinChatRoom: (name:string)=>void
+        JoinChatRoom: (name:string)=>void;
+        loading?:boolean
+        setloading?:(l :boolean)=>void
 }
 const SocketContext= createContext<SocketContextProps | null>(null)
 
@@ -46,6 +48,7 @@ const SocketProvider:React.FC<SocketProviderProps>= (props)=>{
         const [Messages, setMessages]= useState<messagedatatype[]>([])
         const [Users, setUsers]= useState<Usertype[]>([])
         const [UserName, setUserName]= useState<string>("")
+        const [loading , setloading]= useState<boolean>(false)
         
         const sendMessage=(messagedata:messagedatatype)=>{
                 if(socket){
@@ -60,6 +63,7 @@ const SocketProvider:React.FC<SocketProviderProps>= (props)=>{
                 }
         }
         const fetchMessages=async()=>{
+                
                 let res= await fetch(host+"/messages")
                 let resData= await res.json()
                 setMessages(resData)
@@ -100,7 +104,7 @@ const SocketProvider:React.FC<SocketProviderProps>= (props)=>{
                 })
         },[])
         return(
-                <SocketContext.Provider value={{sendMessage, Messages,socketid:socket?.id, Users, UserName, setUserName, JoinChatRoom}}>
+                <SocketContext.Provider value={{sendMessage, Messages,loading,setloading, socketid:socket?.id, Users, UserName, setUserName, JoinChatRoom}}>
                         {props.children}
                 </SocketContext.Provider>
         )

@@ -2,11 +2,12 @@
 import React from 'react'
 import SidebarUser from './SidebarUser'
 import { useSocket } from '../context/SocketState'
+import Loading from './Loading'
 const SIdebar = () => {
-    const {Users}= useSocket()
+    const {Users , loading}= useSocket()
     return (
 
-        <div className="w-1/4 bg-white border-r h-full  border-gray-300">
+        <div className=" w-1/4 bg-white border-r h-full hidden border-gray-300 md:block">
             {/* <!-- Sidebar Header --> */}
             <header className="p-4 border-b border-gray-300 flex justify-between items-center bg-indigo-600 text-white">
                 <h1 className="text-2xl font-semibold">KB-CHAT2</h1>
@@ -30,8 +31,8 @@ const SIdebar = () => {
 
             {/* <!-- Contact List --> */}
             <div className="overflow-y-auto h-screen p-3 mb-9 pb-20">
-
-            {Users && Users.map(e=><SidebarUser Name={e.name} SocketId={e.socketid} />)}
+            {loading  && <Loading/>}
+            {Users ? Users.map(e=><SidebarUser Name={e.name} SocketId={e.socketid} />) : <Loading/> }
             </div>
         
         </div>

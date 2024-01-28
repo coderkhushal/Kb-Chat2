@@ -16,7 +16,7 @@ const MessagesContainer = () => {
             break;
           }
         }
-      return(<Message name={name} type={socketid==e.socketid ? "OUTGOING" :"INCOMING"} message={e.message} />)
+      return(<Message key={e.message} name={name} type={socketid==e.socketid ? "OUTGOING" :"INCOMING"} message={e.message} />)
       })
       } 
     </div>
