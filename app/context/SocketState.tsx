@@ -3,8 +3,8 @@ import React, {  useContext, useEffect, useState } from "react"
 import { Socket, io } from "socket.io-client"
 import { createContext } from "react"
 import { toast } from "react-toastify"
-import { host } from "../constants"
-// const host="http://localhost:4000"
+// import { host } from "../constants"
+const host="http://localhost:4000"
 export type messagedatatype ={
         message:string;
         type:"INCOMING" | "OUTGOING";
